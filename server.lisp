@@ -14,14 +14,35 @@
 
 (in-package :simple-server)
 
-;; simple funktion to print "Hello World!" on :8080
-(defun hello-world ()
-  "Returns 'Hello World' as HTTP-response."
-  (setf (hunchentoot:content-type*) "text/plain")
-  (format nil "Hello World!~%"))
+;; HTML-site
+(defun homepage ()
+  (concatenate 'string
+               "<!DOCTYPE html>"
+               "<html lang='de'>"
+               "<head>"
+               "<meta charset='UTF-8'>"
+               "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+               "<title>homepage</title>"
+               "<style>"
+               "body { font-family: Arial, sans-serif; margin: 0; padding: 0; text-align: center; background-color: white; color: black; overflow: hidden; }"
+               "#canvas-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }"
+               "h1 { margin-top: 20vh; font-size: 3rem; position: relative; z-index: 1; }"
+               ".links a { display: inline-block; margin: 10px; padding: 10px 20px; background: rgba(0,0,0,0.6); color: white; text-decoration: white; border-radius: 5px; }"
+               "</style>"
+               "</head>"
+               "<body>"
+               "<canvas id='canvas-bg'></canvas>"
+               "<h1>Welcome!</h1>"
+               "<div class='links'>"
+               "<a href='https://github.com/svndin' target='_blank'>GitHub</a>"
+               "<a href='https://linkedin.com/' target='_blank'>LinkedIn</a>"
+               "<a href='github.com' target='_blank'>Message Me</a>"
+               "</div>"
+               "</body></html>"))
+
 
 ;; Handler registration
-(define-easy-handler (hello :uri "/") () (hello-world))
+(define-easy-handler (hello :uri "/") () (homepage))
 
 ;; server instance
 (defparameter *server*
