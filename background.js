@@ -8,40 +8,48 @@ function resizeCanvas() {
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
-// funktion to set RGB colors
-function rgb(r, g, b) {
-    return `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
-}
-
 // sine function for multiple waves
 // this function is CPU-intensive! consider optimizing it.
 function sinfun(r, t) {
     return (r - 1) * Math.sin(r * 24 + t); // * Math.cos(r * 6 + t);
 }
 
-// rotation function to plot the animation in color.
-function rotation(width, height, fun) {
+// optimized rotation function using ImageData API. It's better but also CPU-intensive
+function rotation(width, height, fun, t) {
     const w2 = Math.floor(width / 2);
     const h2 = Math.floor(height / 2);
-    let m, n;
 
-    ctx.clearRect(0, 0, width, height); // clears the canvas for each frame update, but may impact performance.
-    
+    const imageData = ctx.createImageData(width, height);
+    const data = imageData.data;
+
     for (let x = 0; x < w2; x++) {
         let p = Math.floor(Math.sqrt(w2 * w2 - x * x));
-        
-        for (let v = 0; v < 2 * p; v++) {
-            let z = v - p;
-            let r = Math.sqrt(x * x + z * z) / w2;
-            let q = fun(r, t);
-            let y = Math.round(z / 3 + q * h2);
-            let color = rgb(r * 255, (1 - r) * 255, 200);
 
-            ctx.fillStyle = color;
-            ctx.fillRect(w2 - x, h2 - y, 2, 2);
-            ctx.fillRect(w2 + x, h2 - y, 2, 2); // mirroring
+        for (let z = -p; z < p; z++) {
+            let radius = Math.sqrt(x * x + z * z) / w2;
+            let q = fun(radius, t);
+            let y = Math.round(z / 3 + waveOffset * h2);
+
+            let r = Math.round(radius * 255);
+            let g = Math.round((1 - radius) * 255);
+            let b = 200;
+
+            setPixel(data, w2 - x, h2 - y, width, r, g, b, 255);
+            setPixel(data, w2 + x, h2 - y, width, r, g, b, 255); // mirroring 
         }
     }
+
+    ctx.putImageData(imageData, 0, 0); // Draw everything at once
+}
+
+// function to set a pixel in ImageData
+function setPixel(data, x, y, width, r, g, b, a) {
+    if (x < 0 || x >= width || y < 0 || y >= data.length / (width * 4)) return;
+    let index = (y * width + x) * 4;
+    data[index] = r;
+    data[index + 1] = g;
+    data[index + 2] = b;
+    data[index + 3] = a;
 }
 
 // animation loop
@@ -52,6 +60,5 @@ function animate() {
     requestAnimationFrame(animate);
 }
 animate();
-
 
 console.log("Background script loaded!");
