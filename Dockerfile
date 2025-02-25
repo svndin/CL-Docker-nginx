@@ -5,5 +5,6 @@ RUN curl -O https://beta.quicklisp.org/quicklisp.lisp && \
 RUN echo '(load "/root/quicklisp/setup.lisp")' > /root/.sbclrc
 RUN sbcl --load /root/quicklisp/setup.lisp --eval "(ql:quickload '(:hunchentoot :cl+ssl))" --quit
 COPY server.lisp /app/server.lisp
+COPY background.js /app/background.js
 EXPOSE 8080
 CMD ["sbcl", "--script", "/app/server.lisp"]
