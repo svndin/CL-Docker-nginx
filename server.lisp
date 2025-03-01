@@ -14,15 +14,6 @@
 
 (in-package :simple-server)
 
-;; Security Headers
-(defmacro with-secure-headers (&body body)
-  `(progn
-     (pushnew '("X-Frame-Options" . "DENY") hunchentoot:*extra-headers* :test #'equal)
-     (pushnew '("X-Content-Type-Options" . "nosniff") hunchentoot:*extra-headers* :test #'equal)
-     (pushnew '("X-XSS-Protection" . "1; mode=block") hunchentoot:*extra-headers* :test #'equal)
-     (pushnew '("Content-Security-Policy" . "default-src 'self'; script-src 'self'; style-src 'self';") hunchentoot:*extra-headers* :test #'equal)
-     ,@body))
-
 ;; HTML & js-background
 (defun homepage ()
   (concatenate 'string
@@ -65,6 +56,8 @@
 (defparameter *server*
   (make-instance 'hunchentoot:easy-acceptor
                  :port 8080))
+;; server-info off
+(defparameter *server-info* nil)
 
 ;; start server
 (hunchentoot:start *server*)
