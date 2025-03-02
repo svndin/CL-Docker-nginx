@@ -45,6 +45,8 @@
 
                "</body></html>"))
 
+;; server-info off
+(defparameter *server-info* nil)
 
 ;; dispatcher for static data
 (setf hunchentoot:*dispatch-table*
@@ -56,8 +58,6 @@
 (defparameter *server*
   (make-instance 'hunchentoot:easy-acceptor
                  :port 8080))
-;; server-info off
-(defparameter *server-info* nil)
 
 ;; start server
 (hunchentoot:start *server*)
