@@ -6,7 +6,7 @@
     (load quicklisp-init)))
 
 ;; load libs
-(ql:quickload '(:hunchentoot :cl+ssl))
+(ql:quickload '(:hunchentoot))
 
 ;; define package
 (defpackage :simple-server
@@ -45,8 +45,6 @@
 
                "</body></html>"))
 
-;; server-info off
-(defparameter *server-info* nil)
 
 ;; dispatcher for static data
 (setf hunchentoot:*dispatch-table*
