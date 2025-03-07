@@ -9,5 +9,4 @@ ENV SBCL_VERSION="hidden"
 ENV HUNCHENTOOT_VERSION="hidden"
 COPY server.lisp /app/server.lisp
 COPY background.js /app/background.js
-EXPOSE 8080
 CMD ["sbcl", "--noinform", "--disable-debugger", "--load", "/app/server.lisp"]
