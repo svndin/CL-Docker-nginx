@@ -1,4 +1,5 @@
-FROM daewok/sbcl:latest # This image is a secure, community-maintained SBCL build by respected Lisp developer. (Debian-Basis)
+# This image is a secure, community-maintained SBCL build by respected Lisp developer. (Debian-Basis)
+FROM daewok/sbcl:latest
 WORKDIR /app
 RUN curl -O https://beta.quicklisp.org/quicklisp.lisp && \
     sbcl --load quicklisp.lisp --eval "(quicklisp-quickstart:install)" --quit && \
