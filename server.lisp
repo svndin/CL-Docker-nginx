@@ -56,7 +56,6 @@
 ;; server instance
 (defparameter *server*
   (make-instance 'hunchentoot:easy-acceptor
-;;                 :address "0.0.0.0"
 ;;                 :port 80
 ;;                 :port 443
                  :port 8080
