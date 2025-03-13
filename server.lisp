@@ -6,7 +6,6 @@
     (load quicklisp-init)))
 
 ;; load libs
-;;(ql:quickload '(:hunchentoot :cl+ssl))
 (ql:quickload '(:hunchentoot))
 
 ;; define package
@@ -56,13 +55,7 @@
 ;; server instance
 (defparameter *server*
   (make-instance 'hunchentoot:easy-acceptor
-;;                 :port 80
-;;                 :port 443
-                 :port 8080
-;;                 :ssl-p t
-;;                 :cert-file "/etc/nginx/ssl/nginx-selfsigned.crt"
-;;                 :key-file "/etc/nginx/ssl/nginx-selfsigned.key"
-                 ))
+                 :port 8080))
 
 ;; start server
 (hunchentoot:start *server*)
