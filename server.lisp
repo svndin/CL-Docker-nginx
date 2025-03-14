@@ -6,7 +6,7 @@
     (load quicklisp-init)))
 
 ;; load libs
-(ql:quickload '(:hunchentoot))
+(ql:quickload :hunchentoot)
 
 ;; define package
 (defpackage :simple-server
